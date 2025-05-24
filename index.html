@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify Clone</title>
+    
+    <link rel="stylesheet" href="style">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+        body {
+            background-color: #000000;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .songList {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .songItem {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #282828;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+        .songItem img {
+            width: 50px;
+            border-radius: 6px;
+        }
+        .songDetails {
+            flex: 1;
+            margin-left: 15px;
+        }
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .controls i {
+            font-size: 30px;
+            margin: 0 15px;
+            cursor: pointer;
+        }
+        #myProgressBar {
+            width: 100%;
+            margin-top: 20px;
+        }
+        #gif {
+            height: 50px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        /*.bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2d6909;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }*/
+        .bottom span {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+ .bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background-color: #be1531;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* center vertical */
+    padding: 10px 20px;
+    box-shadow: 0 -2px 8px rgba(255, 255, 255, 0.7);
+    font-family: 'Varela Round', sans-serif;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+/* Progress bar */
+#myProgressBar {
+    width: 100%;
+    max-width: 800px;
+    height: 4px;
+    background: #ff0202;
+    border-radius: 2px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+/* Thumb styles */
+#myProgressBar::-webkit-slider-thumb {
+    height: 14px;
+    width: 14px;
+    background: #00c244;
+    border-radius: 50%;
+    cursor: pointer;
+    appearance: none;
+}
+
+#myProgressBar::-moz-range-thumb {
+    height: 14px;
+    width: 14px;
+    background: #1db954;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Player controls container */
+.player-controls {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* centers all controls horizontally */
+    gap: 50px;
+    position: relative;
+}
+
+/* Icons container with prev and next */
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex: 1;
+    justify-content: space-between;
+}
+
+/* Smaller prev and next buttons */
+.icons i {
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.icons i:hover {
+    color: #1d1db9;
+    transform: scale(1.2);
+}
+
+/* Play button: centered absolutely inside .player-controls */
+#masterPlay {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    color: #1d34b9;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    z-index: 10;
+}
+
+#masterPlay:hover {
+    transform: translateX(-50%) scale(1.3);
+    color: #1aea4c;
+}
+
+/* Song info container */
+.songInfo {
+    position: fixed;
+    bottom: 12px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #ffffff;
+    max-width: 280px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    user-select: none;
+}
+
+/* Smaller gif/album art */
+.songInfo img {
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    box-shadow: 0 0 6px #1db954aa;
+    transition: opacity 0.3s ease-in-out;
+}
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎵 Spotify Clone</h1>
+        <div class="songList">
+            <!-- Song Items -->
+            <div class="songItem">
+                <img src="covers/1.jpg" alt="Cover">
+                <div class="songDetails">
+                    <span class="songName">Song 1</span>
+                </div>
+                <i id="0" class="fas fa-play-circle songItemPlay"></i>
+            </div>
+            <div class="songItem">
+                <img src="covers/2.jpg" alt="Cover">
+                <div class="songDetails">
+                    <span class="songName">Song 2</span>
+                </div>
+                <i id="1" class="fas fa-play-circle songItemPlay"></i>
+            </div>
+            <div class="songItem">
+                <img src="covers/3.jpg" alt="Cover">
+                <div class="songDetails">
+                    <span class="songName">Song 3</span>
+                </div>
+                <i id="2" class="fas fa-play-circle songItemPlay"></i>
+            </div>
+           
+            <div class="songItem">
+                <img src="covers/5.jpg" alt="Cover">
+                <div class="songDetails">
+                    <span class="songName">Song 5</span>
+                </div>
+                <i id="4" class="fas fa-play-circle songItemPlay"></i>
+            </div>
+            <div class="songItem">
+                <img src="covers/6.jpg" alt="Cover">
+                <div class="songDetails">
+                    <span class="songName">Song 6</span>
+                </div>
+                <i id="5" class="fas fa-play-circle songItemPlay"></i>
+            </div>
+            <div class="songItem">
+                <img src="covers/7.jpg" alt="Cover">
+                <div class="songDetails">
+                    <span class="songName">Song 7</span>
+                </div>
+                <i id="6" class="fas fa-play-circle songItemPlay"></i>
+            </div>
+            <div class="songItem">
+                <img src="covers/8.jpg" alt="Cover">
+                <div class="songDetails">
+                    <span class="songName">Song 8</span>
+                </div>
+                <i id="7" class="fas fa-play-circle songItemPlay"></i>
+            </div>
+            <!-- Add 7 more for 10 songs -->
+            <!-- You can duplicate and change IDs and cover paths -->
+        </div>
+  <div class="bottom">
+    <input type="range" id="myProgressBar" value="0" min="0" max="100">
+    <div class="icons">
+        <i id="previous" class="fas fa-backward"></i>
+        <i id="masterPlay" class="fas fa-play-circle"></i>
+        <i id="next" class="fas fa-forward"></i>
+    </div>
+    <div class="songInfo">
+        <img id="gif" src="playing.gif" alt="Playing"></div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
